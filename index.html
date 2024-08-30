@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thor Browser | Secure Connection</title>
+    <title>Thor | Proxy Browser</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -92,8 +92,24 @@
             const url = document.getElementById('urlInput').value;
             if (url) {
                 const proxyUrl = `https://cors-anywhere.herokuapp.com/${url}`;
-                const newWindow = window.open('about:blank', '_blank');
-                newWindow.location.href = proxyUrl;
+
+                fetch(proxyUrl, {
+                    headers: {
+                        'Origin': 'https://google.com',  // Use a dummy origin
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.text())
+                .then(html => {
+                    const newWindow = window.open();
+                    newWindow.document.open();
+                    newWindow.document.write(html);
+                    newWindow.document.close();
+                })
+                .catch(error => {
+                    console.error('Error fetching the content:', error);
+                    alert('Failed to fetch the content. Check the console for details.');
+                });
             } else {
                 alert('Please enter a URL.');
             }
