@@ -92,7 +92,7 @@
 </head>
 <body>
     <div id="urlForm">
-        <h1>Enter URL to Tunnel Through</h1>
+        <h1>Enter URL to Bypass</h1>
         <input type="text" id="urlInput" placeholder="Enter URL here..." />
         <button id="submitButton">Open</button>
     </div>
@@ -100,12 +100,10 @@
     <iframe id="proxyFrame"></iframe>
 
     <script>
-        const apiKey = '19babc0f-797d-4db6-bded-9dd0e9a009bf';  // Replace 'YOUR_API_KEY' with your actual API key
-
         document.getElementById('submitButton').addEventListener('click', function() {
             const url = document.getElementById('urlInput').value;
             if (url) {
-                const proxyUrl = `https://proxy.scrapeops.io/v1/?api_key=${apiKey}&url=${encodeURIComponent(url)}`;
+                const proxyUrl = `https://cors-anywhere.herokuapp.com/${url}`;
                 const iframe = document.getElementById('proxyFrame');
                 iframe.src = proxyUrl;
                 iframe.style.display = 'block';
