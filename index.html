@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thor | Bypassing school blocks with EASE</title>
+    <title>Thor | Secure Browing in School</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -67,16 +67,6 @@
             background-color: #21a1f1;
         }
 
-        iframe {
-            width: 100%;
-            height: 80vh;
-            border: none;
-            margin-top: 20px;
-            display: none;
-            border-radius: 10px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
@@ -97,16 +87,28 @@
         <button id="submitButton">Open</button>
     </div>
 
-    <iframe id="proxyFrame"></iframe>
-
     <script>
         document.getElementById('submitButton').addEventListener('click', function() {
             const url = document.getElementById('urlInput').value;
             if (url) {
                 const proxyUrl = `https://cors-anywhere.herokuapp.com/${url}`;
-                const iframe = document.getElementById('proxyFrame');
-                iframe.src = proxyUrl;
-                iframe.style.display = 'block';
+                
+                fetch(proxyUrl, {
+                    method: 'GET',
+                    headers: {
+                        'origin': window.location.origin,
+                        'x-requested-with': 'XMLHttpRequest'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        const newWindow = window.open('about:blank', '_blank');
+                        newWindow.location.href = proxyUrl;
+                    } else {
+                        alert('Failed to load the requested URL.');
+                    }
+                }).catch(error => {
+                    alert('Error occurred: ' + error.message);
+                });
             } else {
                 alert('Please enter a URL.');
             }
