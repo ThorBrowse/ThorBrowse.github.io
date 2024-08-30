@@ -104,7 +104,17 @@
                     const newWindow = window.open();
                     newWindow.document.open();
                     newWindow.document.write(html);
+                    newWindow.document.title = "Proxy Browser - " + new URL(url).hostname; // Set the title to the website's hostname
                     newWindow.document.close();
+                    
+                    // Allow interaction with content
+                    const script = newWindow.document.createElement('script');
+                    script.textContent = `
+                        document.addEventListener('click', function(event) {
+                            event.stopImmediatePropagation();
+                        }, true);
+                    `;
+                    newWindow.document.head.appendChild(script);
                 })
                 .catch(error => {
                     console.error('Error fetching the content:', error);
