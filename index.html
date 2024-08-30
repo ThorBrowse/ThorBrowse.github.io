@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proxy Website</title>
+    <title>Thor | Bypassing school blocks with EASE</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -103,7 +103,7 @@
         document.getElementById('submitButton').addEventListener('click', function() {
             const url = document.getElementById('urlInput').value;
             if (url) {
-                const proxyUrl = `https://cors-anywhere.herokuapp.com/${url}`;
+                const proxyUrl = `https://proxy.scrapeops.io/v1/?url=${encodeURIComponent(url)}`;
                 const iframe = document.getElementById('proxyFrame');
                 iframe.src = proxyUrl;
                 iframe.style.display = 'block';
