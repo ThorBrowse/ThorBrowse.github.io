@@ -67,6 +67,15 @@
             background-color: #21a1f1;
         }
 
+        iframe {
+            width: 100%;
+            height: 80vh;
+            border: none;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
@@ -76,6 +85,9 @@
             }
             #submitButton {
                 width: 100%;
+            }
+            iframe {
+                height: 60vh;
             }
         }
     </style>
@@ -87,14 +99,18 @@
         <button id="submitButton">Open</button>
     </div>
 
+    <iframe id="proxyIframe" src=""></iframe>
+
     <script>
         document.getElementById('submitButton').addEventListener('click', function() {
-            const url = document.getElementById('urlInput').value;
+            let url = document.getElementById('urlInput').value;
             if (url) {
                 if (!/^https?:\/\//i.test(url)) {
-                    url = 'https://' + url;
+                    url = 'http://' + url; // Add 'http://' if no protocol is specified
                 }
-                window.location.href = url;
+                
+                const proxyUrl = `https://cors-anywhere.herokuapp.com/${url}`;
+                document.getElementById('proxyIframe').src = proxyUrl;
             } else {
                 alert('Please enter a URL.');
             }
